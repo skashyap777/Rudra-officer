@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "566878619591",
+    "project_id": "rudra-officer",
+    "storage_bucket": "rudra-officer.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566878619591:android:abb3e03878884f84a4bbe2",
+        "android_client_info": {
+          "package_name": "com.pwd.rudraofficer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQf-OjbV8vquGlUGJzOOmrIu68gZm4frs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
