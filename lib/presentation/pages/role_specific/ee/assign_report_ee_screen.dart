@@ -10,6 +10,8 @@ import '../../../../data/models/pothole_model.dart';
 import '../../../../data/models/user_model.dart';
 import '../../../../data/providers/providers.dart';
 import '../../../../core/widgets/common/loading_indicator.dart';
+import '../../../../core/utils/date_formatter.dart';
+
 
 class AssignReportEeScreen extends ConsumerStatefulWidget {
   final String caseId;
@@ -67,18 +69,9 @@ class _AssignReportEeScreenState extends ConsumerState<AssignReportEeScreen> {
   }
 
   String _formatDate(dynamic dateString) {
-    if (dateString == null) return 'N/A';
-    try {
-      if (dateString is int) {
-        final date = DateTime.fromMillisecondsSinceEpoch(dateString * 1000);
-        return DateFormat('yyyy-MM-dd, hh:mm a').format(date);
-      }
-      final date = DateTime.parse(dateString.toString());
-      return DateFormat('yyyy-MM-dd, hh:mm a').format(date);
-    } catch (e) {
-      return dateString.toString();
-    }
+    return AppDateFormatters.formatDynamic(dateString, includeTime: true);
   }
+
 
   String _getImageUrl(String url) {
     if (url.startsWith('http')) return url;
@@ -344,9 +337,10 @@ class _AssignReportEeScreenState extends ConsumerState<AssignReportEeScreen> {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: Text(
-                DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                AppDateFormatters.formatIndianDate(DateTime.now()),
                 style: const TextStyle(fontSize: 14, color: Colors.black),
               ),
+
             ),
             const SizedBox(height: 16),
 

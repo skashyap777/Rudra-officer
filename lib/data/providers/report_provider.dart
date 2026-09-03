@@ -366,3 +366,24 @@ final caseProceedingsProvider =
       final repository = await ref.watch(reportRepositoryProvider.future);
       return repository.getCaseProceedings(caseId);
     });
+
+/// Send Contractor Reminder Action
+final sendContractorReminderProvider = Provider.autoDispose((ref) {
+  return ({
+    required String caseId,
+    required String vendorName,
+    String? officerName,
+    String? remarks,
+  }) async {
+    final repository = await ref.read(reportRepositoryProvider.future);
+    final success = await repository.sendContractorReminder(
+      caseId: caseId,
+      vendorName: vendorName,
+      officerName: officerName,
+      remarks: remarks,
+    );
+    ref.invalidate(caseProceedingsProvider(caseId));
+    return success;
+  };
+});
+

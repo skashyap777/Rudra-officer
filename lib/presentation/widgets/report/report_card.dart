@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/models/pothole_model.dart';
+import '../../../core/utils/date_formatter.dart';
+
 
 class ReportCard extends StatelessWidget {
   final PotholeModel report;
@@ -158,13 +160,16 @@ class ReportCard extends StatelessWidget {
   }
 
   String _formatDate() {
-    if (report.reportDate == null) return '---';
-    try {
-      return DateFormat('dd MMM yy').format(report.reportDate!);
-    } catch (_) {
-      return report.reportDate.toString().split(' ').first;
+    final targetDate = report.reportDate ?? report.createdAt;
+    if (targetDate == null) return '---';
+    final dateStr = AppDateFormatters.formatIndianDate(targetDate);
+    final days = AppDateFormatters.pendingDays(targetDate);
+    if (days > 0) {
+      return '$dateStr ($days d ago)';
     }
+    return dateStr;
   }
+
 
   String _getAssignedToText() {
     if (report.assignedToName != null) return report.assignedToName!;

@@ -10,6 +10,8 @@ import '../../../data/providers/providers.dart';
 import '../../../data/services/storage_service.dart';
 import '../../../core/constants/api_endpoints.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../core/utils/date_formatter.dart';
+
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const _kGreen = Color(0xFF3D9A7E);
@@ -959,18 +961,10 @@ final initial = widget.initialReport;
         _rawDetails.containsKey('rejected_by');
   }
 
-  String _fmtDate(DateTime? dt) =>
-      dt == null ? '---' : DateFormat('dd MMM yy, hh:mm a').format(dt);
+  String _fmtDate(DateTime? dt) => AppDateFormatters.formatIndianDateTime(dt);
 
-  String _fmtApiDate(dynamic value) {
-    if (value == null) return '---';
-    if (value is DateTime) {
-      return DateFormat('yyyy-MM-dd, hh:mm a').format(value.toLocal());
-    }
-    final parsed = DateTime.tryParse(value.toString());
-    if (parsed == null) return _clean(value);
-    return DateFormat('yyyy-MM-dd, hh:mm a').format(parsed.toLocal());
-  }
+  String _fmtApiDate(dynamic value) => AppDateFormatters.formatDynamic(value, includeTime: true);
+
 
   String _fmtAccuracy(PotholeModel p) {
     try {

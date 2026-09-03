@@ -7,6 +7,8 @@ import '../../../core/widgets/common/loading_indicator.dart';
 import '../../../data/models/notification_model.dart';
 import '../../../data/providers/notification_provider.dart';
 import '../../../data/providers/auth_provider.dart';
+import '../../../core/utils/date_formatter.dart';
+
 
 const _green = Color(0xFF3D9A7E);
 
@@ -103,8 +105,9 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
     final dd = DateTime(d.year, d.month, d.day);
     if (dd == DateTime(today.year, today.month, today.day)) return 'Today';
     if (dd == DateTime(today.year, today.month, today.day).subtract(const Duration(days: 1))) return 'Yesterday';
-    return DateFormat('dd MMM yyyy').format(d);
+    return AppDateFormatters.formatIndianDate(d);
   }
+
 
   Widget _buildItem(NotificationModel n) {
     return Padding(
@@ -190,8 +193,9 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
     if (diff.inHours < 1) return '${diff.inMinutes}m ago';
     if (diff.inDays < 1) return '${diff.inHours}h ago';
     if (diff.inDays < 7) return '${diff.inDays}d ago';
-    return DateFormat('dd MMM yy').format(dt);
+    return AppDateFormatters.formatIndianDate(dt);
   }
+
 
   void _onTap(NotificationModel n) {
     final type = n.notificationType;

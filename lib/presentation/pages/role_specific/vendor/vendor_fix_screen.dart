@@ -8,6 +8,8 @@ import 'package:intl/intl.dart';
 import '../../../../data/providers/providers.dart';
 import '../../../../data/models/models.dart';
 import '../../../../core/constants/api_endpoints.dart';
+import '../../../../core/utils/date_formatter.dart';
+
 
 class VendorFixScreen extends ConsumerStatefulWidget {
   final String caseId;
@@ -216,7 +218,8 @@ class _VendorFixScreenState extends ConsumerState<VendorFixScreen> {
           ),
           const Divider(height: 32),
           _detailItem('REPORTED ON', 
-            report.reportDate != null ? DateFormat('dd MMM yyyy').format(report.reportDate!) : 'N/A'),
+            report.reportDate != null ? AppDateFormatters.formatIndianDate(report.reportDate!) : 'N/A'),
+
           _detailItem('LOCATION', report.location ?? 'N/A'),
           const SizedBox(height: 16),
           _detailItem('DIVISION', report.divisionName ?? 'N/A'),

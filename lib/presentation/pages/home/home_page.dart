@@ -193,7 +193,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 2.0,
+        childAspectRatio: 1.75,
       ),
       itemCount: cards.length,
       itemBuilder: (_, i) {
@@ -203,7 +203,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           onTap: c.onTap,
           borderRadius: BorderRadius.circular(8),
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               image: DecorationImage(
@@ -215,20 +215,32 @@ class _HomePageState extends ConsumerState<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  c.title,
-                  style: const TextStyle(
-                    fontFamily: 'inter_medium',
-                    fontSize: 14,
-                    color: Colors.white,
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      c.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: 'inter_medium',
+                        fontSize: 12,
+                        color: Colors.white,
+                        height: 1.2,
+                      ),
+                    ),
                   ),
                 ),
-                Text(
-                  '${c.count}',
-                  style: const TextStyle(
-                    fontFamily: 'inter_semibold',
-                    fontSize: 32,
-                    color: Colors.white,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    '${c.count}',
+                    style: const TextStyle(
+                      fontFamily: 'inter_semibold',
+                      fontSize: 28,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -236,6 +248,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
         );
       },
+
     );
   }
 

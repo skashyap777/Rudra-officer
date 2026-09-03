@@ -11,7 +11,9 @@ import '../../../../data/providers/providers.dart';
 import '../../../../data/models/pothole_model.dart';
 import '../../../../data/services/location_service.dart';
 import '../../../../core/constants/api_endpoints.dart';
+import '../../../../core/utils/date_formatter.dart';
 import 'package:intl/intl.dart';
+
 
 class SubmitFinalReportScreen extends ConsumerStatefulWidget {
   final String caseId;
@@ -503,9 +505,9 @@ class _SubmitFinalReportScreenState extends ConsumerState<SubmitFinalReportScree
 
   Widget _buildCaseDetails(PotholeModel pothole) {
     String formatDate(DateTime? date) {
-      if (date == null) return 'N/A';
-      return DateFormat('dd MMM yyyy, hh:mm a').format(date.toLocal());
+      return AppDateFormatters.formatIndianDateTime(date);
     }
+
 
     return Container(
       padding: const EdgeInsets.all(16),

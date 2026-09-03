@@ -11,6 +11,8 @@ import '../../../../core/widgets/common/loading_indicator.dart';
 import '../../../../data/models/pothole_model.dart';
 import '../../../../data/models/user_model.dart';
 import '../../../../data/providers/providers.dart';
+import '../../../../core/utils/date_formatter.dart';
+
 
 const _green = Color(0xFF4A9079);
 const _yellow = Color(0xFFECA311);
@@ -253,7 +255,8 @@ class _AssignReportDetailsScreenState extends ConsumerState<AssignReportDetailsS
             color: const Color(0xFFE9E9E9),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: Text(DateFormat('dd/MM/yyyy').format(DateTime.now()), style: const TextStyle(fontSize: 14)),
+          child: Text(AppDateFormatters.formatIndianDate(DateTime.now()), style: const TextStyle(fontSize: 14)),
+
         ),
         const SizedBox(height: 10),
         const Text('Remarks', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.black)),
@@ -814,9 +817,9 @@ class _AssignReportDetailsScreenState extends ConsumerState<AssignReportDetailsS
   }
 
   String _formatDate(DateTime? date) {
-    if (date == null) return '---';
-    return DateFormat('yyyy-MM-dd, hh:mm a').format(date);
+    return AppDateFormatters.formatIndianDateTime(date);
   }
+
 
   String _extractErrorMessage(Object error) {
     if (error is DioException) {
