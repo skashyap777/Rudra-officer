@@ -73,12 +73,13 @@ class _ReportPageState extends ConsumerState<ReportPage>
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: const Text('My Reports', style: TextStyle(fontFamily: 'inter_medium', fontSize: 16, color: Colors.white)),
+        title: const Text('My Reports', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Colors.white)),
         backgroundColor: const Color(0xFF3D9A7E),
         elevation: 0,
         centerTitle: false,
+        titleSpacing: 14,
         iconTheme: const IconThemeData(color: Colors.white),
-        toolbarHeight: 52,
+        toolbarHeight: 56,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(88),
           child: Container(
@@ -87,12 +88,12 @@ class _ReportPageState extends ConsumerState<ReportPage>
               children: [
                 // Search input
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                  padding: const EdgeInsets.fromLTRB(14, 8, 14, 8),
                   child: Container(
                     height: 38,
                     decoration: BoxDecoration(
                       color: Colors.grey[100], 
-                      borderRadius: BorderRadius.circular(6),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: _kBorder)
                     ),
                     child: TextField(

@@ -109,10 +109,15 @@ class _CapturePotholeScreenState extends ConsumerState<CapturePotholeScreen> wit
     try {
       position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
-        timeLimit: const Duration(seconds: 5),
+        timeLimit: const Duration(seconds: 12),
       );
     } catch (e) {
-      print('Location Error: $e');
+      debugPrint('Location Error on current position: $e');
+      try {
+        position = await Geolocator.getLastKnownPosition();
+      } catch (lastErr) {
+        debugPrint('Location Error on last known position: $lastErr');
+      }
     }
 
     final isPothole = await _detectionService.detectPothole(_lastCapturedFile!);
@@ -131,23 +136,37 @@ class _CapturePotholeScreenState extends ConsumerState<CapturePotholeScreen> wit
     if (mounted) {
       setState(() {
         _isAnalyzing = false;
-        if (isPothole && position != null && isWithinRange) {
+        if (position == null) {
+          _noPotholeDetected = false;
+          _detectionSuccess = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Could not determine GPS coordinates. Please check location settings and try again.'),
+              backgroundColor: Colors.orange,
+            ),
+          );
+          HapticFeedback.selectionClick();
+        } else if (!isWithinRange && isPothole) {
+          _noPotholeDetected = false;
+          _detectionSuccess = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Too far from original location.')),
+          );
+          HapticFeedback.selectionClick();
+        } else if (isPothole && isWithinRange) {
           _detectionSuccess = true;
+          _noPotholeDetected = false;
           _capturedImages.add(CapturedImage(
             file: _lastCapturedFile!,
             latitude: position.latitude,
             longitude: position.longitude,
             accuracy: position.accuracy,
           ));
-          HapticFeedback.vibrate();
-        } else if (!isWithinRange && isPothole) {
-           _noPotholeDetected = true;
-           _detectionSuccess = false;
-           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Too far from original location.')));
+          HapticFeedback.mediumImpact();
         } else {
           _noPotholeDetected = true;
           _detectionSuccess = false;
-          HapticFeedback.heavyImpact();
+          HapticFeedback.lightImpact();
         }
       });
     }

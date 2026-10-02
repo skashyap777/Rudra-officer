@@ -56,9 +56,81 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final summaryAsync = ref.watch(reportSummaryProvider);
+    final user = ref.watch(currentUserProvider);
+    String photoUrl = user?.profilePhotoLink ?? '';
+    if (photoUrl.isNotEmpty && !photoUrl.startsWith('http')) {
+      photoUrl = '${ApiEndpoints.baseUrlImage}$photoUrl';
+    }
 
     return Scaffold(
       backgroundColor: _bg,
+      appBar: AppBar(
+        backgroundColor: _green,
+        elevation: 0,
+        toolbarHeight: 56,
+        automaticallyImplyLeading: false,
+        titleSpacing: 14,
+        title: Row(
+          children: [
+            CircleAvatar(
+              radius: 17,
+              backgroundColor: Colors.white.withValues(alpha: 0.2),
+              backgroundImage: photoUrl.isNotEmpty ? NetworkImage(photoUrl) : null,
+              child: photoUrl.isEmpty ? const Icon(Icons.person, color: Colors.white, size: 19) : null,
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Welcome back,',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.white.withValues(alpha: 0.85),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Text(
+                    user?.name ?? 'Officer',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 14),
+            child: Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+                ),
+                child: Text(
+                  AppConstants.roleDisplayNames[_userRole] ?? _userRole.toUpperCase(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.3,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: summaryAsync.when(
         loading: () => const Center(child: LoadingIndicator()),
         error: (e, _) => Center(
@@ -86,17 +158,16 @@ class _HomePageState extends ConsumerState<HomePage> {
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
-                _buildSliverHeader(),
                 SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
+                  padding: const EdgeInsets.fromLTRB(14, 14, 14, 24),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
                       _sectionLabel('Summary'),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 8),
                       _buildQuickStats(summary),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 16),
                       _sectionLabel('Quick Actions'),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 8),
                       _buildQuickActions(summary),
                     ]),
                   ),
@@ -109,69 +180,10 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  // ── Header ─────────────────────────────────────────────────────────────────
-  Widget _buildSliverHeader() {
-    final user = ref.watch(currentUserProvider);
-    final topPad = MediaQuery.of(context).padding.top;
-    String photoUrl = user?.profilePhotoLink ?? '';
-    if (photoUrl.isNotEmpty && !photoUrl.startsWith('http')) {
-      photoUrl = '${ApiEndpoints.baseUrlImage}$photoUrl';
-    }
-
-    return SliverToBoxAdapter(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
-        ),
-        padding: EdgeInsets.fromLTRB(14, topPad + 12, 14, 14),
-        child: Row(
-          children: [
-            // Avatar
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: const Color(0xFFF8C300).withValues(alpha: 0.10),
-              backgroundImage: photoUrl.isNotEmpty ? NetworkImage(photoUrl) : null,
-              child: photoUrl.isEmpty ? const Icon(Icons.person_rounded, color: _green, size: 22) : null,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Welcome back', style: TextStyle(fontSize: 10, color: Colors.grey[500])),
-                  Text(
-                    user?.name ?? 'Officer',
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: Colors.black87, letterSpacing: -0.3),
-                  ),
-                ],
-              ),
-            ),
-            // Role badge
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-              decoration: BoxDecoration(
-                color: _green.withValues(alpha: 0.10),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: _green.withValues(alpha: 0.24)),
-              ),
-              child: Text(
-                AppConstants.roleDisplayNames[_userRole] ?? _userRole.toUpperCase(),
-                style: const TextStyle(color: _green, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 0.3),
-              ),
-            ),
-            const SizedBox(width: 8),
-
-          ],
-        ),
-      ),
-    );
-  }
-
   // ── Section label ─────────────────────────────────────────────────────────
   Widget _sectionLabel(String text) => Text(
     text,
-    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'inter_semibold', color: Colors.black),
+    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF1A1A1A)),
   );
 
   final List<String> _summaryBgs = const [

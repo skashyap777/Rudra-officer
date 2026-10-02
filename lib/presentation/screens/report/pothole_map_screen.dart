@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -116,13 +117,27 @@ class _PotholeMapScreenState extends ConsumerState<PotholeMapScreen> {
   }
 
   Future<void> _openGoogleNavigation(double lat, double lng) async {
-    final url = 'google.navigation:q=$lat,$lng';
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+    if (Platform.isIOS) {
+      final googleMapsScheme = Uri.parse('comgooglemaps://?q=$lat,$lng&center=$lat,$lng');
+      final appleMapsScheme = Uri.parse('maps://?q=$lat,$lng');
+
+      if (await canLaunchUrl(googleMapsScheme)) {
+        await launchUrl(googleMapsScheme);
+      } else if (await canLaunchUrl(appleMapsScheme)) {
+        await launchUrl(appleMapsScheme);
+      } else {
+        final webMapUrl = Uri.parse('https://maps.apple.com/?q=$lat,$lng');
+        await launchUrl(webMapUrl, mode: LaunchMode.externalApplication);
+      }
     } else {
-      final googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
-      await launchUrl(Uri.parse(googleMapsUrl), mode: LaunchMode.externalApplication);
+      final url = 'google.navigation:q=$lat,$lng';
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        final googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
+        await launchUrl(Uri.parse(googleMapsUrl), mode: LaunchMode.externalApplication);
+      }
     }
   }
 

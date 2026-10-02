@@ -52,26 +52,28 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
     return Scaffold(
       backgroundColor: _kBg,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: _kGreen,
+        foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
         toolbarHeight: 48,
+        iconTheme: const IconThemeData(color: Colors.white),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18, color: Colors.white),
           onPressed: () => context.pop(),
         ),
         title: Text(
           _screenTitle,
           style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-            letterSpacing: -0.3,
+            fontFamily: 'inter_medium',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey[200], height: 1),
+          child: Container(color: Colors.white.withValues(alpha: 0.1), height: 1),
         ),
       ),
       body: SafeArea(child: caseDetailAsync.when(

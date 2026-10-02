@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../core/constants/api_endpoints.dart';
@@ -125,6 +126,22 @@ class AuthRepository {
 
   Future<void> _registerFcmToken(int userId) async {
     try {
+      if (Platform.isIOS) {
+        final settings = await FirebaseMessaging.instance.requestPermission(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+        if (settings.authorizationStatus == AuthorizationStatus.denied) {
+          debugPrint('FCM: Notification permission denied on iOS');
+          return;
+        }
+        final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+        if (apnsToken == null) {
+          await Future.delayed(const Duration(seconds: 1));
+        }
+      }
+
       final fcmToken = await FirebaseMessaging.instance.getToken();
       if (fcmToken == null) return;
 

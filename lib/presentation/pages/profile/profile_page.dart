@@ -74,55 +74,87 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final user = ref.watch(currentUserProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: const Text('Profile', style: TextStyle(fontFamily: 'inter_medium', fontSize: 16, color: Colors.white)),
+        title: const Text('Profile', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Colors.white)),
         backgroundColor: const Color(0xFF3D9A7E),
-        elevation: 10,
+        elevation: 0,
+        toolbarHeight: 56,
         centerTitle: false,
+        titleSpacing: 14,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                _ProfileCard(user: user),
-                _MenuItem(
-                  marginTop: 60,
-                  iconStr: 'ri_edit_fill.png',
-                  title: 'Edit Profile',
-                  onTap: () => _onAction('Edit Profile'),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(14, 14, 14, 28),
+        child: Column(
+          children: [
+            _ProfileCard(user: user),
+            Container(
+              margin: const EdgeInsets.only(top: 14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFE4E9E6)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.03),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Column(
+                  children: [
+                    _MenuItem(
+                      iconStr: 'ri_edit_fill.png',
+                      fallbackIcon: Icons.edit_outlined,
+                      title: 'Edit Profile',
+                      onTap: () => _onAction('Edit Profile'),
+                      showDivider: true,
+                    ),
+                    _MenuItem(
+                      iconStr: 'group.png',
+                      fallbackIcon: Icons.description_outlined,
+                      title: 'Terms & Conditions',
+                      onTap: () => _onAction('Terms'),
+                      showDivider: true,
+                    ),
+                    _MenuItem(
+                      iconStr: 'privacy_policy_7888843_2.png',
+                      fallbackIcon: Icons.privacy_tip_outlined,
+                      title: 'Privacy Policy',
+                      onTap: () => _onAction('Privacy'),
+                      showDivider: true,
+                    ),
+                    _MenuItem(
+                      iconStr: 'ic_sharp_phone.png',
+                      fallbackIcon: Icons.headset_mic_outlined,
+                      title: 'Contact Support',
+                      onTap: () => _onAction('Support'),
+                      showDivider: true,
+                    ),
+                    _MenuItem(
+                      iconStr: 'assam_pwd_logo_1.png',
+                      fallbackIcon: Icons.info_outline,
+                      title: 'About PWD Assam Initiative',
+                      onTap: () => _onAction('About'),
+                      showDivider: true,
+                    ),
+                    _MenuItem(
+                      iconStr: 'material_symbols_logout.png',
+                      fallbackIcon: Icons.logout_rounded,
+                      title: 'Logout',
+                      isDestructive: true,
+                      onTap: _logout,
+                      showDivider: false,
+                    ),
+                  ],
                 ),
-                _MenuItem(
-                  iconStr: 'group.png',
-                  title: 'Terms & Conditions',
-                  onTap: () => _onAction('Terms'),
-                ),
-                _MenuItem(
-                  iconStr: 'privacy_policy_7888843_2.png',
-                  title: 'Privacy Policy',
-                  onTap: () => _onAction('Privacy'),
-                ),
-                _MenuItem(
-                  iconStr: 'ic_sharp_phone.png',
-                  title: 'Contact Support',
-                  onTap: () => _onAction('Support'),
-                ),
-                _MenuItem(
-                  iconStr: 'assam_pwd_logo_1.png',
-                  title: 'About PWD Assam Initiative',
-                  onTap: () => _onAction('About'),
-                ),
-                _MenuItem(
-                  iconStr: 'material_symbols_logout.png',
-                  title: 'Logout',
-                  onTap: _logout,
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -141,53 +173,65 @@ class _ProfileCard extends StatelessWidget {
     final photoUrl = user?.profilePhotoLink ?? '';
 
     return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFFE0E0E0)),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE4E9E6)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
-          Container(
-            width: 72,
-            height: 72,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(9),
-              image: photoUrl.isNotEmpty
-                  ? DecorationImage(image: NetworkImage(photoUrl), fit: BoxFit.fill)
-                  : const DecorationImage(image: AssetImage('assets/images/frame_16.png'), fit: BoxFit.fill),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Container(
+              width: 64,
+              height: 64,
+              color: const Color(0xFF3D9A7E).withValues(alpha: 0.08),
+              child: photoUrl.isNotEmpty
+                  ? Image.network(photoUrl, fit: BoxFit.cover, errorBuilder: (_, __, ___) => const Icon(Icons.person, color: Color(0xFF3D9A7E), size: 32))
+                  : const Icon(Icons.person, color: Color(0xFF3D9A7E), size: 32),
             ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  name,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.black87),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
                 Row(
                   children: [
-                    const Text('Hello, ', style: TextStyle(fontFamily: 'inter_semibold', fontSize: 14, color: Colors.black)),
-                    Text(name, style: const TextStyle(fontFamily: 'inter_semibold', fontSize: 14, color: Colors.black)),
+                    const Icon(Icons.badge_outlined, size: 14, color: Color(0xFF3D9A7E)),
+                    const SizedBox(width: 6),
+                    Text(
+                      role,
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF3D9A7E)),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 7),
+                const SizedBox(height: 4),
                 Row(
                   children: [
-                    Image.asset('assets/images/id_card_10426413_1.png', width: 13, height: 13, fit: BoxFit.fill, errorBuilder: (_, __, ___) => const Icon(Icons.badge, size: 13)),
-                    const SizedBox(width: 5),
-                    Text(role, style: const TextStyle(fontFamily: 'inter_medium', fontSize: 12, color: Color(0xFF666768))),
-                  ],
-                ),
-                const SizedBox(height: 7),
-                Row(
-                  children: [
-                    Image.asset('assets/images/maps_flags_386283_1.png', width: 13, height: 13, fit: BoxFit.fill, errorBuilder: (_, __, ___) => const Icon(Icons.flag, size: 13)),
-                    const SizedBox(width: 5),
-                    const Text('Division Name: ', style: TextStyle(fontFamily: 'inter_medium', fontSize: 12, color: Color(0xFF666768))),
+                    Icon(Icons.location_on_outlined, size: 14, color: Colors.grey[600]),
+                    const SizedBox(width: 6),
                     Expanded(
-                      child: Text(division, style: const TextStyle(fontFamily: 'inter_medium', fontSize: 12, color: Color(0xFF666768)), overflow: TextOverflow.ellipsis),
+                      child: Text(
+                        division,
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),
@@ -202,47 +246,60 @@ class _ProfileCard extends StatelessWidget {
 
 class _MenuItem extends StatelessWidget {
   final String iconStr;
+  final IconData fallbackIcon;
   final String title;
   final VoidCallback onTap;
-  final double marginTop;
+  final bool showDivider;
+  final bool isDestructive;
 
   const _MenuItem({
     required this.iconStr,
+    required this.fallbackIcon,
     required this.title,
     required this.onTap,
-    this.marginTop = 13,
+    this.showDivider = true,
+    this.isDestructive = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: marginTop),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: onTap,
+    final titleColor = isDestructive ? const Color(0xFFD32F2F) : Colors.black87;
+    final iconColor = isDestructive ? const Color(0xFFD32F2F) : const Color(0xFF3D9A7E);
+
+    return Column(
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             child: Row(
               children: [
-                Image.asset('assets/images/$iconStr', width: 20, height: 20, fit: BoxFit.fill, errorBuilder: (_, __, ___) => const Icon(Icons.image, size: 20)),
-                const SizedBox(width: 20),
+                Image.asset(
+                  'assets/images/$iconStr',
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => Icon(fallbackIcon, size: 20, color: iconColor),
+                ),
+                const SizedBox(width: 14),
                 Expanded(
                   child: Text(
                     title,
-                    style: const TextStyle(fontFamily: 'inter_medium', fontSize: 14, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: isDestructive ? FontWeight.w600 : FontWeight.w500,
+                      color: titleColor,
+                    ),
                   ),
                 ),
-                Image.asset('assets/images/weui_arrow_filled.png', width: 12, height: 24, fit: BoxFit.fill, errorBuilder: (_, __, ___) => const Icon(Icons.chevron_right, size: 16)),
-                const SizedBox(width: 10),
+                Icon(Icons.chevron_right_rounded, size: 18, color: Colors.grey[400]),
               ],
             ),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 12, bottom: 10, left: 40, right: 10),
-            height: 1,
-            color: const Color(0xFFD6D6D6), // grey4
-          ),
-        ],
-      ),
+        ),
+        if (showDivider)
+          const Divider(height: 1, thickness: 1, indent: 50, endIndent: 16, color: Color(0xFFF2F4F3)),
+      ],
     );
   }
 }

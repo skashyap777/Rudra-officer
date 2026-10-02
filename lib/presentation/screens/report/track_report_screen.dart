@@ -28,20 +28,26 @@ class TrackReportScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(
           'Complaint Tracking #$caseId',
-          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, letterSpacing: -0.3),
+          style: const TextStyle(
+            fontFamily: 'inter_medium',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
         ),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: const Color(0xFF3D9A7E),
+        foregroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
         toolbarHeight: 48,
+        iconTheme: const IconThemeData(color: Colors.white),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18, color: Colors.white),
           onPressed: () => context.pop(),
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: kBorder, height: 1),
+          child: Container(color: Colors.white.withValues(alpha: 0.1), height: 1),
         ),
       ),
       body: SafeArea(

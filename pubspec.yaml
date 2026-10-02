@@ -43,7 +43,6 @@ dependencies:
 
   # Camera & Images
   image_picker: ^1.0.7
-  camera: ^0.10.5+9
   image_cropper: ^8.0.2
   cached_network_image: ^3.3.1
 
@@ -84,4 +83,3 @@ flutter:
   assets:
     - assets/images/
     - assets/models/
-    - assets/fonts/

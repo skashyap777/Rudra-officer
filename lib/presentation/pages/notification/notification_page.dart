@@ -24,22 +24,25 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
     final notificationState = ref.watch(notificationProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
-        title: const Text('Notification',
-          style: TextStyle(fontFamily: 'inter_medium', fontSize: 16, color: Colors.white)),
+        title: const Text('Notifications', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Colors.white)),
         backgroundColor: const Color(0xFF3D9A7E),
-        elevation: 10,
+        elevation: 0,
+        toolbarHeight: 56,
         centerTitle: false,
+        titleSpacing: 14,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
-          TextButton(
+          IconButton(
+            icon: const Icon(Icons.refresh_rounded, color: Colors.white, size: 22),
+            tooltip: 'Refresh',
             onPressed: () => ref.read(notificationProvider.notifier).loadNotifications(refresh: true),
-            child: const Text('Refresh', style: TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w700)),
           ),
+          const SizedBox(width: 4),
         ],
       ),
-      body: SafeArea(child: notificationState.when(
+      body: notificationState.when(
         data: (notifications) {
           if (notifications.isEmpty) return _buildEmpty();
           final grouped = _group(notifications);
@@ -47,7 +50,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
             color: const Color(0xFF3D9A7E),
             onRefresh: () => ref.read(notificationProvider.notifier).loadNotifications(refresh: true),
             child: ListView.builder(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(14, 12, 14, 24),
               itemCount: grouped.length,
               itemBuilder: (_, i) {
                 final entry = grouped.entries.elementAt(i);
@@ -55,10 +58,10 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.fromLTRB(2, 10, 2, 8),
                       child: Text(
                         entry.key,
-                        style: const TextStyle(fontSize: 14, fontFamily: 'inter_medium', color: Colors.black),
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF757575), letterSpacing: 0.2),
                       ),
                     ),
                     ...entry.value.map((n) => _buildItem(n)),
@@ -85,7 +88,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
             ],
           ),
         ),
-      )),
+      ),
     );
   }
 
@@ -111,56 +114,71 @@ class _NotificationPageState extends ConsumerState<NotificationPage> {
 
   Widget _buildItem(NotificationModel n) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(bottom: 10),
       child: InkWell(
         onTap: () => _onTap(n),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color(0xFFF9F9F9), // grey5
-            borderRadius: BorderRadius.circular(6),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: const Color(0xFFE4E9E6)),
             boxShadow: [
-              BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 4, offset: const Offset(0, 2)),
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.03),
+                blurRadius: 6,
+                offset: const Offset(0, 2),
+              ),
             ],
           ),
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(12),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('assets/images/frame_1258.png', width: 38, height: 38, fit: BoxFit.fill, errorBuilder: (_, __, ___) => const Icon(Icons.notifications, size: 38)),
-              const SizedBox(width: 10),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3D9A7E).withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(Icons.notifications_active_outlined, color: Color(0xFF3D9A7E), size: 20),
+              ),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
                       children: [
                         Expanded(
                           child: Text(
                             n.title,
                             style: const TextStyle(
-                              fontFamily: 'inter_medium',
                               fontSize: 14,
-                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black87,
                             ),
                           ),
                         ),
+                        const SizedBox(width: 8),
                         Text(
                           _timeAgo(n.createdAt),
                           style: const TextStyle(
-                            fontFamily: 'inter_medium',
-                            fontSize: 12,
-                            color: Color(0xFF666768), // grey2
+                            fontSize: 11,
+                            color: Color(0xFF757575),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 7),
+                    const SizedBox(height: 5),
                     Text(
                       n.body,
                       style: const TextStyle(
-                        fontFamily: 'inter', // regular inter
-                        fontSize: 12,
-                        color: Colors.black,
+                        fontSize: 13,
+                        color: Color(0xFF4A4A4A),
+                        height: 1.35,
                       ),
                     ),
                   ],
