@@ -351,12 +351,15 @@ class _HomePageState extends ConsumerState<HomePage> {
   // ── Data builders (unchanged logic) ──────────────────────────────────────
   List<DashboardCard> _getCards(ReportSummaryModel s) {
     final role = _userRole.toLowerCase();
-    if (role == 'se') return [
+    if (role == 'se') {
+      return [
       DashboardCard(title: 'Pending Reviews', count: s.pendingReviews, bgImage: '', onTap: () => _toList('Pending Reviews', 'pending_se')),
       DashboardCard(title: 'Returned', count: s.unsatisfied, bgImage: '', onTap: () => _toList('Returned', 'returned_se')),
       DashboardCard(title: 'Completed', count: s.satisfied, bgImage: '', onTap: () => _toList('Completed', 'completed_se')),
     ];
-    if (role == 'ee') return [
+    }
+    if (role == 'ee') {
+      return [
       DashboardCard(title: 'Pending Cases', count: s.pendingReports, bgImage: '', onTap: () => _toList('Pending Cases', 'pending_ee')),
       DashboardCard(title: 'Assigned Cases', count: s.assignedCases, bgImage: '', onTap: () => _toList('Assigned Cases', 'assigned_ee')),
       DashboardCard(title: 'In-Progress', count: s.inProgressCases, bgImage: '', onTap: () => _toList('In-Progress', 'in_progress_ee')),
@@ -364,7 +367,9 @@ class _HomePageState extends ConsumerState<HomePage> {
       DashboardCard(title: 'Re-Assigned Cases', count: s.reAssignedCases, bgImage: '', onTap: () => _toList('Re-Assigned', 'reassigned_ee')),
       DashboardCard(title: 'Completed', count: s.completedCases, bgImage: '', onTap: () => _toList('Completed', 'completed_ee')),
     ];
-    if (role == 'aee') return [
+    }
+    if (role == 'aee') {
+      return [
       DashboardCard(title: 'Pending Cases', count: s.pendingReports, bgImage: '', onTap: () => context.pushNamed('assignToFieldEngineers', extra: {'initialTab': 0})),
       DashboardCard(title: 'Self Captured Cases', count: s.captureNearbyPotholeCount, bgImage: '', onTap: () => context.pushNamed('selfCapturedAee')),
       DashboardCard(title: 'Assigned Cases', count: s.assignedCases, bgImage: '', onTap: () => context.pushNamed('myReportsAee', extra: {'initialTab': 'assigned'})),
@@ -373,6 +378,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       DashboardCard(title: 'Re-Assigned Cases', count: s.reAssignedCases, bgImage: '', onTap: () => context.pushNamed('assignToFieldEngineers', extra: {'initialTab': 1})),
       DashboardCard(title: 'Completed', count: s.completedCases, bgImage: '', onTap: () => context.pushNamed('myReportsAee', extra: {'initialTab': 'completed'})),
     ];
+    }
     if (role == 'je' || role == 'ae') {
       final sfx = role == 'ae' ? 'ae' : 'je';
       return [
@@ -384,45 +390,57 @@ class _HomePageState extends ConsumerState<HomePage> {
         DashboardCard(title: 'Completed', count: s.completedCount, bgImage: '', onTap: () => _toList('Completed', 'completed_$sfx')),
       ];
     }
-    if (role == 'vendor') return [
+    if (role == 'vendor') {
+      return [
       DashboardCard(title: 'Pending Cases', count: s.pendingCount, bgImage: '', onTap: () => _toList('Pending Cases', 'pending_vendor')),
       DashboardCard(title: 'Sent for review', count: s.sentForReview, bgImage: '', onTap: () => _toList('Sent for review', 'review_vendor')),
       DashboardCard(title: 'Re-Assigned Cases', count: s.reassignedCountVendor, bgImage: '', onTap: () => _toList('Re-Assigned Cases', 'reassigned_vendor')),
       DashboardCard(title: 'Completed', count: s.completedCases, bgImage: '', onTap: () => _toList('Completed', 'completed_vendor')),
     ];
+    }
     return [];
   }
 
   List<DashboardAction> _getActions(ReportSummaryModel s) {
     final role = _userRole.toLowerCase();
-    if (role == 'se') return [
+    if (role == 'se') {
+      return [
       DashboardAction(title: 'Review Inspections', description: 'Reports needing your final approval', iconImage: 'frame_1107_.png', onTap: () => _handleActionTap(context, 'Review Inspections')),
       DashboardAction(title: 'Returned Reports', description: 'Reports returned for correction', iconImage: 'frame_1107__.png', onTap: () => _handleActionTap(context, 'Returned Reports')),
       DashboardAction(title: 'Completed Reports', description: 'History of approved reports', iconImage: 'frame_1107__4_.png', onTap: () => _handleActionTap(context, 'Completed Reports')),
     ];
-    if (role == 'ee') return [
+    }
+    if (role == 'ee') {
+      return [
       DashboardAction(title: 'Assign to AEE', description: 'Dispatch reports to sub-division officers', count: s.pendingReports + s.reAssignedCases, iconImage: 'frame_1107_.png', onTap: () => _handleActionTap(context, 'Assign to AEE')),
       DashboardAction(title: 'Pothole Activity Map', description: 'Live tracking of work progress', iconImage: 'frame_1107__.png', onTap: () => _handleActionTap(context, 'Pothole Activity Map')),
       DashboardAction(title: 'Review Inspections', description: 'Verify field inspection quality', count: s.reviewInspectionCount, iconImage: 'frame_1107__4_.png', onTap: () => _handleActionTap(context, 'Review Inspections')),
     ];
-    if (role == 'aee') return [
+    }
+    if (role == 'aee') {
+      return [
       DashboardAction(title: 'Assign to Field Engineers', description: 'Dispatch reports to JE/AE officers', count: s.pendingReports, iconImage: 'frame_1107_.png', onTap: () => _handleActionTap(context, 'Assign to Field Engineers')),
       DashboardAction(title: 'Pothole Activity Map', description: 'Live tracking of your area potholes', iconImage: 'frame_1107__.png', onTap: () => _handleActionTap(context, 'Pothole Activity Map')),
       DashboardAction(title: 'Review Inspections', description: 'Verify engineer reports & photos', count: s.reviewInspectionCount, iconImage: 'frame_1107__4_.png', onTap: () => _handleActionTap(context, 'Review Inspections')),
       DashboardAction(title: 'Self Inspection Report', description: 'Create and submit direct inspections', count: s.selfInspectionReportCount, iconImage: 'frame_1107__5_.png', onTap: () => _handleActionTap(context, 'Self Inspection Report')),
       DashboardAction(title: 'Capture Nearby Pothole', description: 'Direct AI-assisted pothole reporting', iconImage: 'frame_1107__6_.png', onTap: () => _handleActionTap(context, 'Capture Nearby Pothole')),
     ];
-    if (role == 'je' || role == 'ae') return [
+    }
+    if (role == 'je' || role == 'ae') {
+      return [
       DashboardAction(title: 'Case assigned', description: 'Conduct new fieldwork inspections', count: s.pendingInspectionCount + s.reAssignedCases, iconImage: 'frame_1107_.png', onTap: () => _handleActionTap(context, 'Case assigned')),
       DashboardAction(title: 'Pothole Activity Map', description: 'Navigate to assigned pothole sites', iconImage: 'frame_1107__.png', onTap: () => _handleActionTap(context, 'Pothole Activity Map')),
       DashboardAction(title: 'Submit Final Report', description: 'Record work completion details', count: s.submitFinalReportCount, iconImage: 'frame_1107__4_.png', onTap: () => _handleActionTap(context, 'Submit Final Report')),
       DashboardAction(title: 'Capture Nearby Pothole', description: 'Report new potholes found on-site', iconImage: 'frame_1107__5_.png', onTap: () => _handleActionTap(context, 'Capture Nearby Pothole')),
     ];
-    if (role == 'vendor') return [
+    }
+    if (role == 'vendor') {
+      return [
       DashboardAction(title: 'Case assigned', description: 'View and start repair operations', count: s.pendingCount + s.reassignedCountVendor, iconImage: 'frame_1107_.png', onTap: () => _handleActionTap(context, 'Case assigned')),
       DashboardAction(title: 'Pothole Activity Map', description: 'Locate site & team locations', iconImage: 'frame_1107__.png', onTap: () => _handleActionTap(context, 'Pothole Activity Map')),
       DashboardAction(title: 'Submit Final Update', description: 'Submit completion photos for review', count: s.finalSubmitCasesCount, iconImage: 'frame_1107__4_.png', onTap: () => _handleActionTap(context, 'Submit Final Update')),
     ];
+    }
     return [];
   }
 

@@ -310,10 +310,10 @@ class _TakeActionSeScreenState extends ConsumerState<TakeActionSeScreen> {
                   ],
 
                   if (_isSatisfied == false) ...[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 4, bottom: 10),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 4, bottom: 10),
                       child: Row(
-                        children: const [
+                        children: [
                           Text('REASON FOR RETURN', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.grey, letterSpacing: 1)),
                           Text(' *', style: TextStyle(color: Colors.red)),
                         ],

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../config/routes.dart';
-import '../../../core/widgets/common/loading_indicator.dart';
 import '../../../data/providers/auth_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {

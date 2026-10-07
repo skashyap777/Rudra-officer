@@ -202,7 +202,7 @@ class _CreateReportScreenState extends ConsumerState<CreateReportScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Report submitted successfully'),
-            backgroundColor: const Color(0xFFF8C300),
+            backgroundColor: Color(0xFFF8C300),
           ),
         );
         context.pop(true);

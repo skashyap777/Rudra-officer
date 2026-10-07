@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/constants/api_endpoints.dart';
 import '../../../core/widgets/common/loading_indicator.dart';
 import '../../../data/models/models.dart';
 import '../../../data/providers/providers.dart';

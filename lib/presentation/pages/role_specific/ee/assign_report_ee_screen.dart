@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../data/models/pothole_model.dart';
@@ -91,7 +90,7 @@ class _AssignReportEeScreenState extends ConsumerState<AssignReportEeScreen> {
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-        body: SafeArea(child: const Center(child: LoadingIndicator())),
+        body: const SafeArea(child: Center(child: LoadingIndicator())),
       );
     }
 
@@ -105,7 +104,7 @@ class _AssignReportEeScreenState extends ConsumerState<AssignReportEeScreen> {
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-        body: SafeArea(child: const Center(child: Text('Failed to load case details'))),
+        body: const SafeArea(child: Center(child: Text('Failed to load case details'))),
       );
     }
 

@@ -129,7 +129,7 @@ class _AccountabilitySummaryHeader extends ConsumerWidget {
     final createdDate = pothole?.reportDate ?? pothole?.createdAt ?? (proceedings.isNotEmpty ? proceedings.first.createdAt : null);
     final daysOpen = AppDateFormatters.pendingDays(createdDate);
 
-    final status = pothole?.status?.toLowerCase() ?? 'pending';
+    final status = pothole?.status.toLowerCase() ?? 'pending';
     final vendorName = pothole?.vendorName ?? 'DLP Contractor';
 
     // Determine current stage index (0 to 4)
@@ -160,62 +160,21 @@ class _AccountabilitySummaryHeader extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Row 1: Complaint Stage Header & SLA Status
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 8, height: 8,
-                    decoration: BoxDecoration(
-                      color: isDelayed ? kRed : (currentStage == 4 ? kGreen : kDarkOrange),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Text(
-                    'STAGE ${currentStage + 1} OF 5',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
-                      color: isDelayed ? kRed : (currentStage == 4 ? kGreen : kDarkOrange),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                color: isDelayed ? kRed.withOpacity(0.1) : Colors.grey[100],
-                child: Text(
-                  daysOpen > 0 ? '$daysOpen Days Open' : 'Reported Today',
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    color: isDelayed ? kRed : Colors.black87,
-                  ),
+          // SLA Status
+          Align(
+            alignment: Alignment.centerRight,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              color: isDelayed ? kRed.withOpacity(0.1) : Colors.grey[100],
+              child: Text(
+                daysOpen > 0 ? '$daysOpen Days Open' : 'Reported Today',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  color: isDelayed ? kRed : Colors.black87,
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-
-          // Stage Progression Visualizer
-          Row(
-            children: List.generate(5, (index) {
-              final isPassed = index <= currentStage;
-              final isCurrent = index == currentStage;
-              return Expanded(
-                child: Container(
-                  height: 4,
-                  margin: EdgeInsets.only(right: index < 4 ? 4 : 0),
-                  color: isCurrent
-                      ? (isDelayed ? kRed : kGreen)
-                      : (isPassed ? kGreen : Colors.grey[200]),
-                ),
-              );
-            }),
+            ),
           ),
           const SizedBox(height: 12),
 
