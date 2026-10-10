@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
 
 import '../../../data/models/models.dart';
 import '../../../data/providers/providers.dart';
@@ -420,7 +419,7 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
               raw['vendor_user_id'] == myId);
 
       if (isAssignedToMe && currentUser?.name != null) {
-        resolvedName = currentUser!.name!;
+        resolvedName = currentUser!.name;
       }
     }
 
@@ -499,7 +498,10 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
                         if (vendorSent) ...[
                           const SizedBox(height: 12),
                           _textLink('Track your assigned report', () {
-                            context.pushNamed('activityMap', extra: p);
+                            context.pushNamed(
+                              'trackReport',
+                              pathParameters: {'id': p.id.toString()},
+                            );
                           }),
                         ],
                       ],
@@ -1427,7 +1429,7 @@ final initial = widget.initialReport;
                             try {
                               final repo = await ref.read(reportRepositoryProvider.future);
                               await repo.rejectCaseJeAe(
-                                caseId: p.id!,
+                                caseId: p.id,
                                 userType: userType,
                                 rejectMasterIds: [selectedReasonId!],
                                 otherReason: remarkController.text.trim(),
@@ -1594,7 +1596,7 @@ final initial = widget.initialReport;
                             try {
                               final repo = await ref.read(reportRepositoryProvider.future);
                               await repo.assignVendor(
-                                caseId: p.id!,
+                                caseId: p.id,
                                 vendorUserId: selectedVendorId!,
                                 userType: userType,
                                 remark: remarkController.text.trim(),

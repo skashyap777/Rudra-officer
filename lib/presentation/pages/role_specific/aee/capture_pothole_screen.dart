@@ -277,10 +277,10 @@ class _CapturePotholeScreenState extends ConsumerState<CapturePotholeScreen> wit
                               color: Colors.black.withOpacity(0.6),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Row(
+                            child: const Row(
                               children: [
-                                const Icon(Icons.gps_fixed_rounded, color: Colors.white, size: 14),
-                                const SizedBox(width: 6),
+                                Icon(Icons.gps_fixed_rounded, color: Colors.white, size: 14),
+                                SizedBox(width: 6),
                                 Text(
                                   'GPS ACTIVE',
                                   style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 0.5),

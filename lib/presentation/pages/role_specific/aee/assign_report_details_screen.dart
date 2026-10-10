@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/constants/api_endpoints.dart';
@@ -95,14 +94,14 @@ class _AssignReportDetailsScreenState extends ConsumerState<AssignReportDetailsS
     if (_isLoading) {
       return Scaffold(
         appBar: _appBar(),
-        body: SafeArea(child: const Center(child: LoadingIndicator())),
+        body: const SafeArea(child: Center(child: LoadingIndicator())),
       );
     }
 
     if (_pothole == null) {
       return Scaffold(
         appBar: _appBar(),
-        body: SafeArea(child: const Center(child: Text('Failed to load case details'))),
+        body: const SafeArea(child: Center(child: Text('Failed to load case details'))),
       );
     }
 

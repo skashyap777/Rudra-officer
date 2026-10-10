@@ -9,8 +9,6 @@ import '../../../../core/widgets/common/empty_state.dart';
 import '../../../widgets/report/report_card.dart';
 import '../../../../data/models/user_model.dart';
 import '../../../widgets/report/assign_vendor_sheet.dart';
-import '../../../../data/models/user_model.dart';
-import '../../../widgets/report/assign_vendor_sheet.dart';
 
 class SelfInspectionAeeScreen extends ConsumerStatefulWidget {
   const SelfInspectionAeeScreen({super.key});

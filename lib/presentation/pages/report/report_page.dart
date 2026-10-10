@@ -259,17 +259,20 @@ class _ReportList extends ConsumerWidget {
         break;
       default:
         if (type.contains('completed')) {
-          if (role == 'aee') ep = ApiEndpoints.allAssignedCompletedRejectedCasesAee;
-          else if (role == 'ee') ep = ApiEndpoints.allAssignedCompletedRejectedCasesEe;
+          if (role == 'aee') {
+            ep = ApiEndpoints.allAssignedCompletedRejectedCasesAee;
+          } else if (role == 'ee') ep = ApiEndpoints.allAssignedCompletedRejectedCasesEe;
           else if (role == 'se') ep = ApiEndpoints.completedCaseSe;
           else if (role == 'ae') ep = ApiEndpoints.allInspectedCompletedRejectedCasesAe;
           else if (role == 'je') ep = ApiEndpoints.allInspectedCompletedRejectedCasesJe;
         } else if (type.contains('inspected')) {
-          if (role == 'ae') ep = ApiEndpoints.allInspectedCompletedRejectedCasesAe;
-          else if (role == 'je') ep = ApiEndpoints.allInspectedCompletedRejectedCasesJe;
+          if (role == 'ae') {
+            ep = ApiEndpoints.allInspectedCompletedRejectedCasesAe;
+          } else if (role == 'je') ep = ApiEndpoints.allInspectedCompletedRejectedCasesJe;
         } else if (type.contains('rejected')) {
-          if (role == 'aee') ep = ApiEndpoints.allAssignedCompletedRejectedCasesAee;
-          else if (role == 'ee') ep = ApiEndpoints.allAssignedCompletedRejectedCasesEe;
+          if (role == 'aee') {
+            ep = ApiEndpoints.allAssignedCompletedRejectedCasesAee;
+          } else if (role == 'ee') ep = ApiEndpoints.allAssignedCompletedRejectedCasesEe;
           else if (role == 'se') ep = ApiEndpoints.reassignedCasesSe;
           else if (role == 'ae') ep = ApiEndpoints.allInspectedCompletedRejectedCasesAe;
           else if (role == 'je') ep = ApiEndpoints.allInspectedCompletedRejectedCasesJe;
@@ -280,10 +283,12 @@ class _ReportList extends ConsumerWidget {
     final reports = await repo.getReportsByEndpoint(ep, filter: filter);
 
     if (type == 'assign_fe_aee') return reports;
-    if (type == 'assigned_aee') return reports.where((r) {
+    if (type == 'assigned_aee') {
+      return reports.where((r) {
       final status = r.status.toLowerCase();
       return status == 'assigned' || status == 'in_progress' || status == 'requested' || status == 'accepted';
     }).toList();
+    }
     if (type == 'assigned_ee') return reports.where((r) => r.status.toLowerCase() == 'assigned' || r.status.toLowerCase() == 'in_progress' || r.status.toLowerCase() == 'requested').toList();
     if (type.contains('completed')) return reports.where(_isCompletedReport).toList();
     if (type.contains('inspected')) return reports.where((r) => r.status.toLowerCase() == 'inspected' || r.status.toLowerCase() == 're-inspected').toList();

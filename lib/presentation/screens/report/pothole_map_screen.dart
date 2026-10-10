@@ -229,12 +229,12 @@ class _PotholeMapScreenState extends ConsumerState<PotholeMapScreen> {
             right: 0,
             child: Container(
               padding: const EdgeInsets.fromLTRB(10, 16, 10, 24), // Added padding for bottom area
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
-                  BoxShadow(color: Colors.black12, blurRadius: 10, offset: const Offset(0, -2)),
+                  BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, -2)),
                 ],
-                border: const Border(top: BorderSide(color: Colors.black12, width: 1)),
+                border: Border(top: BorderSide(color: Colors.black12, width: 1)),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

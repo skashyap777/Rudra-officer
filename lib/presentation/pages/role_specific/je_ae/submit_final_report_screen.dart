@@ -12,7 +12,6 @@ import '../../../../data/models/pothole_model.dart';
 import '../../../../data/services/location_service.dart';
 import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/utils/date_formatter.dart';
-import 'package:intl/intl.dart';
 
 
 class SubmitFinalReportScreen extends ConsumerStatefulWidget {
